@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  # ---------------------------------------------------------------------------
+  # MongoDB — local development database
+  # ---------------------------------------------------------------------------
+  mongodb:
+    image: mongo:7
+    container_name: quanta-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: quanta
+      MONGO_INITDB_ROOT_PASSWORD: quanta_dev
+      MONGO_INITDB_DATABASE: quanta
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # FastAPI backend
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: quanta-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      # Override MONGO_URI to point to the container
+      MONGO_URI: mongodb://quanta:quanta_dev@mongodb:27017/quanta?authSource=admin
+    volumes:
+      # Mount source code for hot reload
+      - ./backend:/app
+      # Prevent overwriting container's venv
+      - /app/.venv
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+volumes:
+  mongo-data:
