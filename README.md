@@ -8,15 +8,62 @@ an **interactive diagram**, **revision notes**, and a **five-question quiz**.
 Built phone-first, runs offline once you've scanned, remembers everything
 you've ever asked it about.
 
-| Home | Projectile motion | Bohr atom (Carbon) | Sine wave |
-|:-:|:-:|:-:|:-:|
-| ![Home](screenshots/Screenshot_20260902_144300.png) | ![Projectile](screenshots/Screenshot_20260902_144349.png) | ![Atom](screenshots/Screenshot_20260902_144428.png) | ![Wave](screenshots/Screenshot_20260902_144452.png) |
+---
 
-| Revision notes | Quiz | History |
-|:-:|:-:|:-:|
-| ![Notes](screenshots/Screenshot_20260902_144415.png) | ![Quiz](screenshots/Screenshot_20260902_144437.png) | ![History](screenshots/Screenshot_20260902_144458.png) |
+## 📱 See it in action
 
-More captures in [`screenshots/`](screenshots/). Demo recordings go in [`video/`](video/).
+The whole user journey, in eight screens:
+
+<table>
+  <tr>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144300.png" alt="Home — Scan to Learn" width="220" /><br />
+      <b>1 · Home</b><br />
+      <sub>One tap to start a scan.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144329.png" alt="History — every scan, all 6 demo topics" width="220" /><br />
+      <b>2 · History</b><br />
+      <sub>Every scan you do is saved on the phone.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144349.png" alt="AI Visualiser — projectile motion with velocity vector" width="220" /><br />
+      <b>3 · Visualiser · Projectile</b><br />
+      <sub>Parabola with live velocity vector at the apex.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144437.png" alt="AI Visualiser — simple harmonic motion, spring + position graph" width="220" /><br />
+      <b>4 · Visualiser · SHM</b><br />
+      <sub>Spring with position-vs-time graph.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144428.png" alt="AI Visualiser — Bohr atom, Z = 6 carbon" width="220" /><br />
+      <b>5 · Visualiser · Atom</b><br />
+      <sub>Bohr model with the right number of electrons per shell.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144415.png" alt="AI Notes — concept, formulas, key points, worked example" width="220" /><br />
+      <b>6 · Notes</b><br />
+      <sub>The same problem, expanded: formulas, gotchas, worked example.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144403.png" alt="AI Quiz Generator — pick difficulty, generate five questions" width="220" /><br />
+      <b>7 · Quiz Generator</b><br />
+      <sub>Five multiple-choice questions, scored live.</sub>
+    </td>
+    <td align="center" width="25%">
+      <img src="screenshots/Screenshot_20260902_144507.png" alt="Account — Quanta coins, scans, streak" width="220" /><br />
+      <b>8 · Account &amp; Coins</b><br />
+      <sub>Quanta coins for the loop; streaks for the habit.</sub>
+    </td>
+  </tr>
+</table>
+
+> Twelve more captures in [`screenshots/`](screenshots/) — the sine-wave
+> visualiser, the demo-data seed, and the camera-capture screen.
+> Demo recordings will go in [`video/`](video/).
 
 ---
 
