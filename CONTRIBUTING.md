@@ -119,7 +119,7 @@ This is the single most useful contribution. The flow:
 3. Write a Flutter widget in `quanta_app/lib/visualiser/your_template.dart`. The widget takes a `VisualiserTemplate` and renders a `CustomPainter`. See `atom_component.dart` for the smallest example.
 4. Register the widget in `quanta_app/lib/visualiser/visualiser_factory.dart`.
 5. Add a `topic` to the seed data in `quanta_app/lib/storage/history_store.dart` so the demo shows it.
-6. Add a screenshot to `screenshot-2/`.
+6. Add a screenshot to `screenshots/`.
 7. Open a PR with a 30-second screen recording.
 
 ---

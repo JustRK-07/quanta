@@ -114,6 +114,12 @@ quanta_app/ios/Runner/GoogleService-Info.plist
 quanta_app/macos/Runner/GoogleService-Info.plist
 
 # Local debugging screenshots
-screenshot-2/
-screenshot-*.png
 *.tmp.png
+
+# Demo videos (regenerate locally; we don't track the binaries by default)
+# The video/ folder is kept (with a .gitkeep) so the structure survives;
+# drop the actual recordings in via a fresh PR when you have them.
+*.mp4
+*.mov
+*.webm
+videos/

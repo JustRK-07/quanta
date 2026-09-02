@@ -38,13 +38,13 @@ Everything the user has scanned lives in a local **History** tab they can revisi
 
 | Home | Projectile motion | Bohr atom (Z = 6) | AI Notes (SHM) |
 |:-:|:-:|:-:|:-:|
-| ![Home](screenshot-2/Screenshot_20260902_144300.png) | ![Projectile](screenshot-2/Screenshot_20260902_144349.png) | ![Atom](screenshot-2/Screenshot_20260902_144428.png) | ![Notes](screenshot-2/Screenshot_20260902_144527.png) |
+| ![Home](screenshots/Screenshot_20260902_144300.png) | ![Projectile](screenshots/Screenshot_20260902_144349.png) | ![Atom](screenshots/Screenshot_20260902_144428.png) | ![Notes](screenshots/Screenshot_20260902_144527.png) |
 
 | Wave plot | Notes — projectile | History tab |
 |:-:|:-:|:-:|
-| ![Wave](screenshot-2/Screenshot_20260902_144452.png) | ![Notes-proj](screenshot-2/Screenshot_20260902_144415.png) | more in `screenshot-2/` |
+| ![Wave](screenshots/Screenshot_20260902_144452.png) | ![Notes-proj](screenshots/Screenshot_20260902_144415.png) | more in `screenshots/` |
 
-> The `screenshot-2/` folder holds the 12 captures we use for the submission deck.
+> The `screenshots/` folder holds the 12 captures we use for the submission deck.
 
 ---
 
@@ -112,8 +112,8 @@ quanta/
 ├── Makefile                # Common dev tasks
 ├── .pre-commit-config.yaml
 ├── .gitignore
-├── LICENSE                 # MIT — Quanta Team, Amrita Vishwa Vidyapeetham
-└── screenshot-2/           # Demo captures used in the submission deck
+├── LICENSE                 # MIT — Quanta Team, Vishwakarma Institute of Technology Pune
+└── screenshots/           # Demo captures used in the submission deck
 ```
 
 ---
@@ -202,7 +202,7 @@ CI runs on every push: `.github/workflows/backend-ci.yml` and `.github/workflows
 
 ## The team
 
-Built at Amrita Vishwa Vidyapeetham for the **iQOO Hackathon 2026** (Smart Education track).
+Built at Vishwakarma Institute of Technology Pune for the **iQOO Hackathon 2026** (Smart Education track).
 
 | | |
 |---|---|
@@ -217,7 +217,7 @@ Reach the team at the addresses in `quanta_app/assets/team/` or open an issue.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). Copyright © 2025 Quanta Team, Amrita Vishwa Vidyapeetham.
+MIT — see [LICENSE](LICENSE). Copyright © 2025 Quanta Team, Vishwakarma Institute of Technology Pune.
 
 ## See also
 

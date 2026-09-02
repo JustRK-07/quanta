@@ -1,6 +1,6 @@
 # iQOO Hackathon 2026 — Submission brief
 
-> This is the one-pager the team uses to pitch Quanta at the city battle. It maps the screenshots in `screenshot-2/` to the rubric the iQOO Hackathon publishes, and tells the jury exactly which screens to look at for which criteria.
+> This is the one-pager the team uses to pitch Quanta at the city battle. It maps the screenshots in `screenshots/` to the rubric the iQOO Hackathon publishes, and tells the jury exactly which screens to look at for which criteria.
 
 ---
 
@@ -33,14 +33,14 @@ Total: 5 minutes, no slides.
 
 ### 4.1 · End product quality (30%, jury)
 
-**Score: strong.** The full flow works on the loaner iQOO with no manual setup beyond the dev-bypass env flag. The screenshots in `screenshot-2/` are from a Pixel 6 emulator at the same resolution and theme as the loaner.
+**Score: strong.** The full flow works on the loaner iQOO with no manual setup beyond the dev-bypass env flag. The screenshots in `screenshots/` are from a Pixel 6 emulator at the same resolution and theme as the loaner.
 
-- `screenshot-2/Screenshot_20260902_144300.png` — Home / "Scan to Learn" tile.
-- `screenshot-2/Screenshot_20260902_144349.png` — AI Visualiser, projectile motion with velocity vector at the apex.
-- `screenshot-2/Screenshot_20260902_144428.png` — AI Visualiser, Bohr atom (Z = 6 carbon), two shells, six electrons.
-- `screenshot-2/Screenshot_20260902_144452.png` — AI Visualiser, sine wave from the wave-on-string template.
-- `screenshot-2/Screenshot_20260902_144415.png` — AI Notes, projectile motion (concept + formulas + key points).
-- `screenshot-2/Screenshot_20260902_144527.png` — AI Notes, SHM (concept + formulas + worked example).
+- `screenshots/Screenshot_20260902_144300.png` — Home / "Scan to Learn" tile.
+- `screenshots/Screenshot_20260902_144349.png` — AI Visualiser, projectile motion with velocity vector at the apex.
+- `screenshots/Screenshot_20260902_144428.png` — AI Visualiser, Bohr atom (Z = 6 carbon), two shells, six electrons.
+- `screenshots/Screenshot_20260902_144452.png` — AI Visualiser, sine wave from the wave-on-string template.
+- `screenshots/Screenshot_20260902_144415.png` — AI Notes, projectile motion (concept + formulas + key points).
+- `screenshots/Screenshot_20260902_144527.png` — AI Notes, SHM (concept + formulas + worked example).
 
 ### 4.2 · Novelty and impact (20%, jury)
 
@@ -96,10 +96,10 @@ Counts and durations will be visible to HackTracker: screen-mirror sessions, fil
 
 | Name | Role | From |
 |---|---|---|
-| Dakshin | Full-stack + backend lead | Amrita Vishwa Vidyapeetham |
-| Nihith | Flutter + visualisation | Amrita Vishwa Vidyapeetham |
-| Shreram | AI services + quiz generation | Amrita Vishwa Vidyapeetham |
-| Vibin | Design + product | Amrita Vishwa Vidyapeetham |
+| Dakshin | Full-stack + backend lead | Vishwakarma Institute of Technology Pune |
+| Nihith | Flutter + visualisation | Vishwakarma Institute of Technology Pune |
+| Shreram | AI services + quiz generation | Vishwakarma Institute of Technology Pune |
+| Vibin | Design + product | Vishwakarma Institute of Technology Pune |
 
 Reach the team through the WhatsApp group or open an issue on the repo.
 
@@ -121,17 +121,17 @@ Two terminals. The phone connects to the laptop on `10.0.2.2:8001`. The full loo
 
 | File | What it shows | Rubric hit |
 |---|---|---|
-| `screenshot-2/Screenshot_20260902_144300.png` | Home — "Scan to Learn" tile, bottom nav | End product quality (30%) |
-| `screenshot-2/Screenshot_20260902_144329.png` | Scan capture, OCR overlay | Phone use, technical depth |
-| `screenshot-2/Screenshot_20260902_144349.png` | AI Visualiser — projectile motion with velocity vector | Novelty, end product |
-| `screenshot-2/Screenshot_20260902_144403.png` | Scan Result, AI Notes tab | End product, technical depth |
-| `screenshot-2/Screenshot_20260902_144415.png` | AI Notes — projectile (concept + formulas + key points) | End product quality |
-| `screenshot-2/Screenshot_20260902_144428.png` | AI Visualiser — Bohr atom, Z = 6 | Novelty, technical depth |
-| `screenshot-2/Screenshot_20260902_144437.png` | AI Quiz tab | End product, retention loop |
-| `screenshot-2/Screenshot_20260902_144452.png` | AI Visualiser — sine wave | Novelty, end product |
-| `screenshot-2/Screenshot_20260902_144458.png` | History list | Local-first architecture |
-| `screenshot-2/Screenshot_20260902_144507.png` | History detail, scan metadata | End product, retention |
-| `screenshot-2/Screenshot_20260902_144527.png` | AI Notes — SHM | End product, technical depth |
-| `screenshot-2/probe.png` | Test capture from the in-app image picker | Engineering setup |
+| `screenshots/Screenshot_20260902_144300.png` | Home — "Scan to Learn" tile, bottom nav | End product quality (30%) |
+| `screenshots/Screenshot_20260902_144329.png` | Scan capture, OCR overlay | Phone use, technical depth |
+| `screenshots/Screenshot_20260902_144349.png` | AI Visualiser — projectile motion with velocity vector | Novelty, end product |
+| `screenshots/Screenshot_20260902_144403.png` | Scan Result, AI Notes tab | End product, technical depth |
+| `screenshots/Screenshot_20260902_144415.png` | AI Notes — projectile (concept + formulas + key points) | End product quality |
+| `screenshots/Screenshot_20260902_144428.png` | AI Visualiser — Bohr atom, Z = 6 | Novelty, technical depth |
+| `screenshots/Screenshot_20260902_144437.png` | AI Quiz tab | End product, retention loop |
+| `screenshots/Screenshot_20260902_144452.png` | AI Visualiser — sine wave | Novelty, end product |
+| `screenshots/Screenshot_20260902_144458.png` | History list | Local-first architecture |
+| `screenshots/Screenshot_20260902_144507.png` | History detail, scan metadata | End product, retention |
+| `screenshots/Screenshot_20260902_144527.png` | AI Notes — SHM | End product, technical depth |
+| `screenshots/probe.png` | Test capture from the in-app image picker | Engineering setup |
 
 Twelve captures. The deck uses six; the rest are in the appendix.
