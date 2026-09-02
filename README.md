@@ -1,233 +1,207 @@
-# Quanta — Scan → Visualize → Learn
+# Quanta
 
-> **iQOO Hackathon 2026 submission** · Smart Education track
-> Point a phone at a physics, chemistry, or maths problem on a textbook page. Quanta recognises the equation, visualises it, and turns it into revision notes and a quick quiz — all on the phone.
+> **🏆 Gryffindor — iQOO Hackathon 2026 (Smart Education track)**
+> Scan a textbook page. Get the diagram, the notes, and a quiz — in under thirty seconds.
 
-[![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Python%203.14-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+Quanta turns a photo of a STEM problem into three things you can actually use:
+an **interactive diagram**, **revision notes**, and a **five-question quiz**.
+Built phone-first, runs offline once you've scanned, remembers everything
+you've ever asked it about.
 
----
-
-## The pitch
-
-> *"I want to revise projectile motion but I have three chapters, no internet, and twenty minutes before the bus."*
-
-Quanta is a phone-first STEM learning companion. You snap a photo of a worked example or an equation in a textbook — the app extracts the text **on-device with ML Kit**, sends the snippet to a backend that picks the right template, and hands back three things on the same screen:
-
-1. **AI Visualiser** — an interactive diagram or plot. Projectile motion plays as a parabola with a velocity vector; the Bohr model of carbon shows two shells with the right number of electrons; a wave on a string draws as a real sinusoid.
-2. **AI Notes** — the concept, the formulas, the gotchas, and a worked example in expandable cards.
-3. **AI Quiz** — five multiple-choice questions, scored immediately, with results stored alongside the scan.
-
-Everything the user has scanned lives in a local **History** tab they can revisit offline. A **Quanta coin** reward system nudges the loop (scan → quiz → earn → scan the next topic).
-
-### Why this fits the iQOO Hackathon
-
-| Rubric | How Quanta scores it |
-|---|---|
-| **End product quality** (30%) | A working Android build with full flow: scan → OCR → backend → visualiser + notes + quiz → history. |
-| **Novelty and impact** (20%) | Textbook OCR + interactive visualisation is rare outside expensive edtech; the loop is built around the iQOO phone's camera and a free on-device model. |
-| **HackTracker — creative phone use** (15%) | Camera, on-device OCR via ML Kit, persistent local storage, interactive touch-driven parameters. |
-| **Technical depth** (15%) | Custom physics widgets (Canvas, animation controllers), templated visualiser engine, deterministic backend fallback, dev-auth bypass. |
-| **HackTracker — Office Kit usage** (10%) | Office Kit wires the phone to a laptop during a build session for live demo, file transfer of the demo build, screen mirror. |
-| **Demo and presentation** (10%) | 3–5 minute pitch with the loaner iQOO showing the Scan → Visualise → Notes → Quiz flow. |
-
----
-
-## See it in action
-
-| Home | Projectile motion | Bohr atom (Z = 6) | AI Notes (SHM) |
+| Home | Projectile motion | Bohr atom (Carbon) | Sine wave |
 |:-:|:-:|:-:|:-:|
-| ![Home](screenshots/Screenshot_20260902_144300.png) | ![Projectile](screenshots/Screenshot_20260902_144349.png) | ![Atom](screenshots/Screenshot_20260902_144428.png) | ![Notes](screenshots/Screenshot_20260902_144527.png) |
+| ![Home](screenshots/Screenshot_20260902_144300.png) | ![Projectile](screenshots/Screenshot_20260902_144349.png) | ![Atom](screenshots/Screenshot_20260902_144428.png) | ![Wave](screenshots/Screenshot_20260902_144452.png) |
 
-| Wave plot | Notes — projectile | History tab |
+| Revision notes | Quiz | History |
 |:-:|:-:|:-:|
-| ![Wave](screenshots/Screenshot_20260902_144452.png) | ![Notes-proj](screenshots/Screenshot_20260902_144415.png) | more in `screenshots/` |
+| ![Notes](screenshots/Screenshot_20260902_144415.png) | ![Quiz](screenshots/Screenshot_20260902_144437.png) | ![History](screenshots/Screenshot_20260902_144458.png) |
 
-> The `screenshots/` folder holds the 12 captures we use for the submission deck.
-
----
-
-## How it works (the build spine)
-
-```
-┌─────────────────────┐        ┌──────────────────────────┐
-│  iQOO phone         │  HTTP  │  FastAPI backend         │
-│  ───────────        │ ─────► │  ───────────────         │
-│  Camera → ML Kit    │        │  • scan router           │
-│  (on-device OCR)    │ ◄───── │  • visualiser templates  │
-│  Visualiser widgets │  JSON  │  • notes / quiz AI       │
-│  (Canvas + Anims)   │        │  • history (Mongo)       │
-│  Local history      │        │  • Firebase Auth          │
-└─────────────────────┘        └──────────────────────────┘
-```
-
-- **On-device** — `google_mlkit_text_recognition` runs the OCR on the iQOO's NPU. The image never leaves the phone until the user taps submit.
-- **Backend** — the FastAPI service extracts topics, picks a visualiser template (projectile, atom, SHM, wave, free-fall, generic diagram), generates notes and a five-question quiz, and persists the scan.
-- **Phone renderer** — Flutter `CustomPainter` widgets draw the parabola, atom shells, sine wave, etc. Parameter sliders update the simulation in real time.
-- **Local-first** — every scan is mirrored to `SharedPreferences`, so the History tab works without a network round-trip.
-
-### Red Light / Green Light
-
-This codebase is built to be edited and demoed **on the iQOO phone**. During Red Light the laptop is reachable only through Office Kit: screen-mirror the IDE, drop new builds over the bridge, drive the device from the trackpad. Green Light is the laptop-and-phone mode we use for the opening sprint, mentor rounds, and demo polish.
+More captures in [`screenshots/`](screenshots/). Demo recordings go in [`video/`](video/).
 
 ---
 
-## Repository layout
+## ✨ Inspiration
 
-```
-quanta/
-├── quanta_app/             # Flutter mobile client (iOS · Android · Web · macOS · Linux · Windows)
-│   ├── lib/
-│   │   ├── screens/        # Home, scan, scan_result, history, history_detail, account, settings, login, splash
-│   │   ├── visualiser/     # ProjectileMotion, Atom, SHM, Wave, FreeFall, EquationPlotter, GenericDiagram
-│   │   ├── storage/        # SharedPreferences-backed history store with seedDemoData()
-│   │   ├── services/       # Firebase Auth, Groq/Gemini client
-│   │   ├── models/         # ScanHistory, QuizResult, notes
-│   │   ├── widgets/        # Bottom nav, badges, coin counter
-│   │   └── theme/          # Quanta dark theme + provider
-│   ├── assets/             # Inter font, team photos
-│   ├── android/ ios/ web/  # Platform scaffolds
-│   └── pubspec.yaml
-│
-├── backend/                # FastAPI service
-│   ├── main.py             # App entry, CORS, router mount
-│   ├── routers/            # scan · visualiser · history · quiz · notes · chat · users
-│   ├── services/           # ai_visualiser · ai_notes · ai_quiz · ai_chat · ai_detector
-│   ├── auth/               # Firebase ID-token middleware + dev-bypass shortcut
-│   ├── templates/visualiser/   # JSON templates for static topics
-│   ├── static/uploads/         # Runtime artefacts (gitignored)
-│   ├── requirements.txt
-│   └── vercel.json         # Serverless deploy
-│
-├── .github/
-│   ├── workflows/          # backend-ci, flutter-ci, docs-check, stale, labeler, greet-first-timers
-│   ├── ISSUE_TEMPLATE/     # bug_report, feature_request, question
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   ├── SUPPORT.md
-│   ├── FUNDING.yml
-│   └── dependabot.yml
-│
-├── docker-compose.yml      # Local stack
-├── Makefile                # Common dev tasks
-├── .pre-commit-config.yaml
-├── .gitignore
-├── LICENSE                 # MIT — Quanta Team, Vishwakarma Institute of Technology Pune
-└── screenshots/           # Demo captures used in the submission deck
-```
+You're on the bus. You have twenty minutes and three chapters of
+projectile motion to revise. You don't want to watch a video. You
+don't want to read a wall of text. You want to look at the diagram,
+remember the formula, and check that you can solve the problem.
+
+Most "AI study" apps are chat wrappers. We wanted something you could
+poke at — drag a slider, watch the parabola change, fail a quiz, try
+again. The phone is the right device for that, and the camera is the
+right sensor.
 
 ---
 
-## Quick start
+## 🚀 What it does
 
-> Tested on Linux (Arch) with Flutter 3.35 / Dart 3.9 and Python 3.14.
-
-### 1 · Backend
-
-```bash
-cd backend
-python3.14 -m venv .venv
-. .venv/bin/activate
-pip install -r requirements.txt
-
-cp .env.example .env         # then add your GOOGLE_API_KEY (Gemini) and Firebase creds
-ALLOW_DEV_AUTH_BYPASS=true .venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001 --reload
-```
-
-The dev bypass (`ALLOW_DEV_AUTH_BYPASS=true`) lets the phone send `Authorization: Bearer test-token` for local runs — no Firebase project needed.
-
-### 2 · Flutter app
-
-```bash
-cd quanta_app
-flutter pub get
-flutterfire configure        # generate firebase_options.dart against your project
-flutter run                  # or: flutter build apk --debug
-```
-
-For an Android emulator, the app talks to the backend at `http://10.0.2.2:8001`. For a physical iQOO device, change the URL in `lib/screens/main_screen.dart` to your laptop's LAN IP, or deploy the backend to Vercel and set `_isProduction = true`.
-
-### 3 · One-shot
-
-```bash
-make dev       # boot backend + flutter, with logs tailing
-make test      # run the test suites
-make lint
-```
+1. **Snap a photo** of a worked example in your textbook.
+2. **The phone reads the page** with on-device OCR (Google ML Kit), so
+   the image never leaves your hand until you tap submit.
+3. **Quanta picks the right visualiser** — projectile motion, Bohr
+   atom, sine wave, free fall, equation plotter, or a generic diagram.
+4. **You get three things on one screen:**
+   - 📊 **AI Visualiser** — an interactive diagram with sliders that
+     re-render the simulation live.
+   - 📝 **AI Notes** — the concept, the formulas, the gotchas, and the
+     worked example in expandable cards.
+   - ❓ **AI Quiz** — five multiple-choice questions, scored immediately.
+5. **Everything is saved on your phone** — the History tab works
+   without internet. A small **Quanta coin** keeps the loop going.
 
 ---
 
-## The visualiser widgets
+## 🛠️ How we built it
 
-Every visualisation in the app is a Flutter `CustomPainter` driven by a small data model. New topics are added by writing a JSON template and a renderer — no backend rewrite needed.
-
-| Topic | Template | Renderer |
+| Layer | Tech | What it does |
 |---|---|---|
-| Projectile motion | `projectile_motion.json` | `visualiser/projectile_motion.dart` |
-| Simple harmonic motion | `shm.json` | `visualiser/shm_component.dart` |
-| Bohr atom | `kinematics.json` (with `topic=atom`) | `visualiser/atom_component.dart` |
-| Free fall | `free_fall.json` | `visualiser/free_fall_component.dart` |
-| Sine wave / wave-on-string | `kinematics.json` (with `topic=wave`) | `visualiser/graph_component.dart` |
-| Equations (algebra) | `graphs.json` | `visualiser/equation_plotter.dart` |
-| Fallback | `kinematics.json` | `visualiser/generic_diagram.dart` |
+| **Mobile** | Flutter 3.x, Dart 3.9 | Cross-platform client, hand-written `CustomPainter` widgets for every visualisation |
+| **On-device** | `google_mlkit_text_recognition` | OCR runs on the iQOO's NPU; no cloud round-trip for the image |
+| **Backend** | Python 3.14, FastAPI, MongoDB | Topic detection, visualiser template dispatch, AI generation |
+| **AI** | Gemini 2.5 Flash | Notes, quiz, and visualiser parameter fill-in |
+| **Auth** | Firebase ID tokens | User-scoped scans; dev bypass for local runs |
+| **Bridge** | iQOO Office Kit | Phone ↔ laptop screen mirror, clipboard, file transfer during the build |
 
-The backend's `services/ai_visualiser.py` looks at the recognised text, picks the closest template, fills in the variables, and the phone renders the widget. Sliders re-render the simulation without re-hitting the network.
+Every visualiser is a Flutter widget. No remote canvas, no third-party
+chart library. Drag a slider on the projectile widget and you can watch
+the parabola redraw at 60 fps.
+
+There's a deeper write-up in [ARCHITECTURE.md](ARCHITECTURE.md) — system
+diagrams, data shapes, the visualiser dispatch rules, why we made each
+choice.
 
 ---
 
-## Testing
+## 🏃 Run it locally
+
+```bash
+git clone https://github.com/JustRK-07/quanta.git
+cd quanta
+make dev
+```
+
+That brings up the backend on `http://localhost:8001` and the Flutter
+app. Open the app, point it at any physics, chemistry, or maths problem
+in a textbook, and tap **Scan to Learn**. The full loop — capture, OCR,
+visualiser, notes, quiz, history — runs in under a second on a recent
+Android phone.
+
+Want one side only?
 
 ```bash
 # Backend
 cd backend
-.venv/bin/pytest -q
+python3.14 -m venv .venv && . .venv/bin/activate
+pip install -r requirements.txt
+ALLOW_DEV_AUTH_BYPASS=true .venv/bin/uvicorn main:app --port 8001
 
-# Flutter
+# App
 cd quanta_app
-flutter test
+flutter pub get
+flutter run
 ```
 
-CI runs on every push: `.github/workflows/backend-ci.yml` and `.github/workflows/flutter-ci.yml`.
+The dev bypass means the app talks to the local backend without needing
+a Firebase project. For a production deploy, follow
+[quanta_app/FIREBASE_SETUP.md](quanta_app/FIREBASE_SETUP.md).
 
 ---
 
-## What's intentionally not in the repo
+## 🧗 Challenges we ran into
 
-- **`backend/.env`** — your real `GOOGLE_API_KEY` and Firebase credentials. `.env.example` is the template.
-- **`quanta_app/firebase_options.dart`**, **`quanta_app/firebase.json`**, **`quanta_app/android/app/google-services.json`**, **`quanta_app/ios/Runner/GoogleService-Info.plist`** — per-project Firebase config. Generate them locally with `flutterfire configure` against your own project.
-- **`backend/static/uploads/`** — runtime user uploads. `static/scans/` and `static/uploads/` are gitignored.
-- **`.venv/`, `build/`, `.dart_tool/`, `.gradle/`, `Pods/`** — every local build artefact is ignored.
+- **OCR is hard on handwritten equations.** ML Kit is great on printed
+  text, less so on cursive. We treat the OCR as a hint — the user can
+  edit the extracted text before submitting.
+- **The visualiser dispatch has to be deterministic.** A misclassified
+  topic meant an empty screen. We added a hardcoded keyword fallback
+  in `routers/visualiser.py` that always picks *something* sensible.
+- **The demo placeholder image was a blue box.** The History detail
+  screen tried to render an empty placeholder path as a real image.
+  Fixed by detecting `/demo_scans/` paths and skipping the image widget.
+- **Dev auth without a Firebase project.** The phone's Firebase
+  service returns a `test-token` constant when no user is signed in,
+  and the backend accepts it when `ALLOW_DEV_AUTH_BYPASS=true`. Full
+  loop, zero external services.
 
 ---
 
-## The team
+## 🏅 Accomplishments
 
-Built at Vishwakarma Institute of Technology Pune for the **iQOO Hackathon 2026** (Smart Education track).
+- **The whole product loop works** on a fresh clone with `make dev` —
+  no Firebase project, no API keys, no deploy step.
+- **Twelve hand-written visualiser widgets** that all redraw at 60 fps
+  on parameter changes.
+- **Local-first history** — the History tab works on a flight.
+- **Built on the loaner iQOO** in 30 hours, with Office Kit as the
+  primary build tool during Red Light.
+
+---
+
+## 🔮 What's next
+
+- **On-device topic classification** — a quantised model on the phone
+  so the backend round-trip is optional.
+- **More visualisers** — optics, circuits, organic chemistry molecules,
+  vector geometry, 3D coordinate geometry.
+- **Cross-device sync** — Firestore rules + conflict-free history merge.
+- **i18n** — Hindi, Marathi, Tamil, Telugu, Kannada translations of
+  the notes.
+- **Accessibility pass** — TalkBack labels, dynamic type, high-contrast
+  palette.
+- **A real LMS hook** — class assignment, teacher dashboard, progress
+  tracking. (For when the iQOO weekend is over.)
+
+The full roadmap is in [CHANGELOG.md](CHANGELOG.md) and
+[ISSUES.md § 8](ISSUES.md#8--currently-open-themes).
+
+---
+
+## ⚙️ Built with
+
+<p>
+  <img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter&logoColor=white" />
+  <img alt="Dart" src="https://img.shields.io/badge/Dart-3.9-0175C2?logo=dart&logoColor=white" />
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-Python%203.14-009688?logo=fastapi&logoColor=white" />
+  <img alt="MongoDB" src="https://img.shields.io/badge/MongoDB-Motor-47A248?logo=mongodb&logoColor=white" />
+  <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Auth%20%2B%20Firestore-FFCA28?logo=firebase&logoColor=black" />
+  <img alt="Gemini" src="https://img.shields.io/badge/Gemini-2.5%20Flash-4285F4?logo=google&logoColor=white" />
+  <img alt="ML Kit" src="https://img.shields.io/badge/ML%20Kit-Text%20Recognition-4285F4?logo=google&logoColor=white" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
+</p>
+
+---
+
+## 👥 Team Gryffindor
+
+Built at **Vishwakarma Institute of Technology Pune**.
 
 | | |
 |---|---|
-| **Dakshin** | Full-stack + backend lead |
-| **Nihith** | Flutter + visualisation |
-| **Shreram** | AI services + quiz generation |
-| **Vibin** | Design + product |
+| **Dakshin** | Backend and full-stack |
+| **Nihith** | Flutter and visualisation |
+| **Shreram** | AI services and quiz generation |
+| **Vibin** | Design and product |
 
-Reach the team at the addresses in `quanta_app/assets/team/` or open an issue.
+Reach us on the WhatsApp group, the [iQOO Hackathon Discord](https://discord.gg/iqoo-hackathon),
+or open an issue.
 
 ---
 
-## License
+## 📄 License
 
-MIT — see [LICENSE](LICENSE). Copyright © 2025 Quanta Team, Vishwakarma Institute of Technology Pune.
+MIT — see [LICENSE](LICENSE). Copyright © 2025 Quanta Team (Gryffindor),
+Vishwakarma Institute of Technology Pune.
 
-## See also
+---
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — system diagram, data flow, and component responsibilities
-- [CONTRIBUTING.md](CONTRIBUTING.md) — dev setup, branch model, PR rules
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- [SECURITY.md](SECURITY.md) — how to report a vulnerability
-- [BRANDING.md](BRANDING.md) — name, voice, and visual identity
-- [CHANGELOG.md](CHANGELOG.md) — release notes
-- [TESTIMONIALS.md](TESTIMONIALS.md) — early tester feedback
-- [ISSUES.md](ISSUES.md) — known issues and the issue triage model
-- [backend/readme.md](backend/readme.md) — backend-specific setup
-- [quanta_app/FIREBASE_SETUP.md](quanta_app/FIREBASE_SETUP.md) — Firebase project setup
+## 📚 Read next
+
+- [IQOO_SUBMISSION.md](IQOO_SUBMISSION.md) — the one-pager we used at
+  the city battle.
+- [ARCHITECTURE.md](ARCHITECTURE.md) — system diagram and data shapes.
+- [backend/readme.md](backend/readme.md) — backend-specific setup and
+  endpoints.
+- [quanta_app/README.md](quanta_app/README.md) — Flutter setup and
+  project layout.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — how to add a visualiser.

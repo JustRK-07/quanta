@@ -1,6 +1,6 @@
-# iQOO Hackathon 2026 — Submission brief
+# iQOO Hackathon 2026 — Submission brief · Team Gryffindor
 
-> This is the one-pager the team uses to pitch Quanta at the city battle. It maps the screenshots in `screenshots/` to the rubric the iQOO Hackathon publishes, and tells the jury exactly which screens to look at for which criteria.
+> This is the one-pager **Team Gryffindor** uses to pitch Quanta at the city battle. It maps the screenshots in `screenshots/` to the rubric the iQOO Hackathon publishes, and tells the jury exactly which screens to look at for which criteria.
 
 ---
 
@@ -92,7 +92,7 @@ Counts and durations will be visible to HackTracker: screen-mirror sessions, fil
 
 ---
 
-## 7 · The team
+## 7 · The team — Gryffindor
 
 | Name | Role | From |
 |---|---|---|
