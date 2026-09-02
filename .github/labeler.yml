@@ -1,0 +1,41 @@
+flutter-app:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "quanta_app/**"
+
+backend:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "backend/**"
+
+docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "docs/**"
+
+dependencies:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "backend/requirements.txt"
+          - "quanta_app/pubspec.yaml"
+          - "quanta_app/pubspec.lock"
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/**"
+
+ui:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "quanta_app/lib/screens/**"
+          - "quanta_app/lib/widgets/**"
+          - "quanta_app/lib/theme/**"
+          - "quanta_app/assets/**"
+
+ai:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "backend/services/**"
+          - "quanta_app/lib/visualiser/**"
