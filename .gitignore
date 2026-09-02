@@ -118,8 +118,13 @@ quanta_app/macos/Runner/GoogleService-Info.plist
 
 # Demo videos (regenerate locally; we don't track the binaries by default)
 # The video/ folder is kept (with a .gitkeep) so the structure survives;
-# drop the actual recordings in via a fresh PR when you have them.
+# the regenerated mp4s in video/ ARE tracked — see the whitelist below.
 *.mp4
 *.mov
 *.webm
 videos/
+
+# Whitelist: keep the demo videos in video/ that the build_demo*.py
+# scripts produce. Anything dropped in by hand still respects the *.mp4
+# rule above.
+!video/*.mp4
