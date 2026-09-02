@@ -106,6 +106,13 @@ backend/services/flutter_application_1/
 test_output.txt
 test_image.png
 
+# Firebase per-project config (contains real API keys and project IDs)
+quanta_app/firebase.json
+quanta_app/lib/firebase_options.dart
+quanta_app/android/app/google-services.json
+quanta_app/ios/Runner/GoogleService-Info.plist
+quanta_app/macos/Runner/GoogleService-Info.plist
+
 # Local debugging screenshots
 screenshot-2/
 screenshot-*.png
