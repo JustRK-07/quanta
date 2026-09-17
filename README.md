@@ -163,8 +163,9 @@ Once the backend source is available, deploy the two components separately:
    backend's `MONGO_URI` environment variable.
 2. Deploy the complete `backend/` directory to Render, Railway, or another
    Python host. Use `uvicorn main:app --host 0.0.0.0 --port $PORT` as the
-   start command and set the provider key required by the backend, Firebase
-   credentials, and `MONGO_URI` as platform secrets.
+   start command and set the    provider key required by the backend (`GOOGLE_API_KEY` for Gemini or
+   `GROQ_API_KEY` for Groq), Firebase credentials, `MONGO_URI`, and
+   `FRONTEND_URL` as platform secrets.
 3. Deploy `quanta_app/` to Vercel or Firebase Hosting. Build with:
 
    ```bash

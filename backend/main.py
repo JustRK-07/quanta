@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from config import FRONTEND_URL
 
 # Routers
 from auth import auth_router
@@ -15,9 +16,10 @@ app = FastAPI(title="Quanta Backend")
 # ----------------------------
 # CORS (Flutter Friendly)
 # ----------------------------
+allowed_origins = ["*"] if not FRONTEND_URL else [FRONTEND_URL]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],         # Allow all for development
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

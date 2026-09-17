@@ -5,12 +5,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ==============================================================================
-# AI Configuration (Google Gemini API)
+# AI Configuration
 # ==============================================================================
 
 # Gemini API Configuration
 GEMINI_API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 GEMINI_FALLBACK_API_KEY = os.getenv("GEMINI_FALLBACK_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GEMINI_BASE_URL = "https://generativelanguage.googleapis.com/v1beta"
 GEMINI_MODEL = "gemini-2.5-flash"  # Latest Gemini 2.5 Flash model
 GEMINI_VISION_MODEL = "gemini-2.5-flash"  # Same model handles vision
@@ -23,9 +24,11 @@ OLLAMA_BASE_URL = GEMINI_BASE_URL
 GENERAL_MODEL = GEMINI_MODEL
 
 # Legacy keys (deprecated, kept for import compatibility)
-FALLBACK_GROQ_API_KEY = None
+FALLBACK_GROQ_API_KEY = GROQ_API_KEY
 AIML_API_KEY = os.getenv("AIML_API_KEY")  # For image generation only
 OPENROUTER_API_KEY_LEGACY = os.getenv("OPENROUTER_API_KEY")
+
+FRONTEND_URL = os.getenv("FRONTEND_URL", "").strip()
 
 def is_ai_enabled() -> bool:
     """Returns True if Gemini API key is configured."""

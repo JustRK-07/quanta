@@ -86,8 +86,9 @@ The OpenAPI doc at `/docs` is the canonical reference.
 restored. The minimum viable set:
 
 ```ini
-# Required for AI features
+# AI provider keys used by the backend
 GOOGLE_API_KEY=...
+GROQ_API_KEY=...
 
 # Auth
 ALLOW_DEV_AUTH_BYPASS=true   # for local dev only
@@ -97,6 +98,7 @@ FIREBASE_CREDENTIALS_JSON={...escaped JSON...}
 
 # Storage
 MONGO_URI=                   # leave blank to disable the Mongo mirror (uses local file storage)
+FRONTEND_URL=https://your-project.vercel.app
 ```
 
 See [`.env.example`](.env.example) for the full template.
