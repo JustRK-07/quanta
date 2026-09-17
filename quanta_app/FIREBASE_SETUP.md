@@ -58,7 +58,12 @@ flutterfire configure \
 3. Drops `ios/Runner/GoogleService-Info.plist` (iOS / macOS).
 4. Updates `firebase.json` at the project root with the platform map.
 
-All four files are matched by patterns in `.gitignore`, so they stay local. **Do not commit them.**
+The generated client configuration in `lib/firebase_options.dart` is included
+in this repository so hosted Flutter web builds can compile. Firebase client
+configuration is not a service-account secret; restrict the project in the
+Firebase console with authorized domains and security rules. Do not commit
+`google-services.json`, `GoogleService-Info.plist`, or any Firebase
+service-account JSON.
 
 ### 2.1 · Android specifics
 
