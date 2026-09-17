@@ -88,11 +88,16 @@ scan, notes, visualiser, quiz, history, and authentication requests:
 
 ```bash
 flutter build web --release \
-  --dart-define=QUANTA_API_BASE_URL=https://your-backend.example.com
+  --dart-define=QUANTA_API_BASE_URL=https://your-backend.example.com \
+  --dart-define=ALLOW_DEV_AUTH_BYPASS=true
 ```
 
 The value is defined in `lib/services/api_config.dart`; no source-file edit is
 needed for each deployment.
+
+`ALLOW_DEV_AUTH_BYPASS=true` is only for a temporary hackathon demo when the
+backend has the same setting enabled. Use Firebase login and omit this flag
+for a public production build.
 
 ---
 

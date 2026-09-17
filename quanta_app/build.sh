@@ -25,6 +25,7 @@ flutter pub get
 echo "Building specific web target..."
 # Note: Using html renderer for better compatibility, or canvaskit for performance
 flutter build web --release \
-  --dart-define=QUANTA_API_BASE_URL="$QUANTA_API_BASE_URL"
+  --dart-define=QUANTA_API_BASE_URL="$QUANTA_API_BASE_URL" \
+  --dart-define=ALLOW_DEV_AUTH_BYPASS="${ALLOW_DEV_AUTH_BYPASS:-false}"
 
 echo "Build complete."

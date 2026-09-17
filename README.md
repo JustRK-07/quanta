@@ -175,6 +175,9 @@ Once the backend source is available, deploy the two components separately:
 
    `QUANTA_API_BASE_URL` is used by every Flutter screen that calls the API.
    The default `http://10.0.2.2:8001` is only for an Android emulator.
+   For a temporary public demo without Firebase login, also set the Vercel
+   build environment variable `ALLOW_DEV_AUTH_BYPASS=true`; set the same
+   variable to `true` on the backend. Disable this after the hackathon.
 4. For production, configure Firebase Authentication and set
    `ALLOW_DEV_AUTH_BYPASS=false` (or leave it unset). Never commit `.env`,
    Firebase service-account files, or API keys.
