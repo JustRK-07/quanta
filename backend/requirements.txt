@@ -1,0 +1,33 @@
+# OpenAI-compatible API (Grok / xAI)
+openai
+langchain-openai
+
+# FastAPI framework & ASGI server
+fastapi
+uvicorn[standard]
+
+# Google Gemini API (Vision + Text) - Optional: can be removed if fully transitioned
+
+
+# Environment variables loader
+python-dotenv
+
+# Image handling (FastAPI-compatible uploads)
+python-multipart
+
+# Data validation / models (used by FastAPI)
+pydantic
+
+# LangChain core + Google Gemini integration
+langchain
+
+
+# MongoDB async driver
+motor
+pymongo
+
+# Firebase ID token verification
+firebase-admin
+
+# Optional: helpful utilities
+requests

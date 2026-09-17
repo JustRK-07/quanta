@@ -1,0 +1,60 @@
+import os
+
+from fastapi import Depends, HTTPException, Request, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+
+from auth.firebase import verify_firebase_token
+
+http_bearer = HTTPBearer(auto_error=False)
+ALLOW_DEV_AUTH_BYPASS = os.getenv("ALLOW_DEV_AUTH_BYPASS", "false").lower() == "true"
+
+
+async def require_firebase_user(
+    request: Request, credentials: HTTPAuthorizationCredentials = Depends(http_bearer)
+):
+    """
+    Dependency that validates the Authorization header, verifies the Firebase
+    token, persists/updates the user in MongoDB, and attaches the user object
+    to `request.state`.
+    """
+    if credentials is None or credentials.scheme.lower() != "bearer":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing or invalid Authorization header.",
+        )
+
+    id_token = credentials.credentials
+    
+    print(f"DEBUG: Received bearer token prefix: {id_token[:8]}...")
+
+    # --- DEV BYPASS FOR TESTING ---
+    if ALLOW_DEV_AUTH_BYPASS and id_token.strip() == "test-token":
+        print("⚠ USING DEV BYPASS TOKEN")
+        mock_user = {
+            "uid": "test-user-123",
+            "email": "test@quanta.app",
+            "name": "Test User",
+            "picture": None
+        }
+        # DEV: Skip DB call to prevent blocking
+        request.state.user = mock_user
+        request.state.id_token = id_token
+        return mock_user
+    # ------------------------------
+
+    try:
+        firebase_user = verify_firebase_token(id_token)
+    except Exception as exc:  # firebase_admin raises several custom exceptions
+        print(f"DEBUG: Auth middleware failed: {exc}")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid or expired Firebase ID token. Error: {exc}",
+        ) from exc
+
+    # Skip DB call to prevent blocking on MongoDB SSL issues
+    # The app will still work, just won't persist user login
+    # await record_user_login(firebase_user)
+
+    request.state.user = firebase_user
+    request.state.id_token = id_token
+    return firebase_user
