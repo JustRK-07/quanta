@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/scan_subject.dart';
 
@@ -19,7 +20,8 @@ class SubjectBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasImage = imagePath.isNotEmpty && File(imagePath).existsSync();
+    final hasImage =
+        !kIsWeb && imagePath.isNotEmpty && File(imagePath).existsSync();
     final color = subject.color;
     return Container(
       height: size,

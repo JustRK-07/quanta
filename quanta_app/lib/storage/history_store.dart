@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,9 +67,17 @@ class HistoryStore {
   /// directory so the detail screen's `Image.file` calls have something to
   /// render. Idempotent: re-running overwrites with the same set.
   static Future<void> seedDemoData() async {
-    final docsDir = await getApplicationDocumentsDirectory();
-    final scanDir = Directory('${docsDir.path}/demo_scans');
-    if (!await scanDir.exists()) await scanDir.create(recursive: true);
+    final String? scanDirectory;
+    if (kIsWeb) {
+      // Web has no application documents directory. The detail screen treats
+      // this marker as a demo placeholder and does not read it as a file.
+      scanDirectory = null;
+    } else {
+      final docsDir = await getApplicationDocumentsDirectory();
+      final scanDir = Directory('${docsDir.path}/demo_scans');
+      if (!await scanDir.exists()) await scanDir.create(recursive: true);
+      scanDirectory = scanDir.path;
+    }
 
     final now = DateTime.now();
     final entries = <_SeedEntry>[
@@ -272,8 +281,12 @@ class HistoryStore {
     final newHistory = <ScanHistory>[];
     for (final e in entries) {
       final ts = DateTime(now.year, now.month, now.day - e.daysAgo, e.hour);
-      final path = '${scanDir.path}/${e.file}';
-      await _writeSolidPng(path, e.rgb[0], e.rgb[1], e.rgb[2]);
+      final path = scanDirectory == null
+          ? '/demo_scans/${e.file}'
+          : '$scanDirectory/${e.file}';
+      if (scanDirectory != null) {
+        await _writeSolidPng(path, e.rgb[0], e.rgb[1], e.rgb[2]);
+      }
 
       final quizResults = e.quizResults.map((q) {
         final m = Map<String, dynamic>.from(q);
