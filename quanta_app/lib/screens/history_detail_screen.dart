@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../models/scan_history.dart';
 import '../storage/history_store.dart';
 import '../services/firebase_auth_service.dart';
+import '../services/api_config.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../quiz/quiz_play_screen.dart';
 import '../quiz/quiz_result_screen.dart';
@@ -30,7 +31,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
   Widget? visualiserWidget;
   bool loading = true;
 
-  final serverIp = 'http://10.0.2.2:8001';
+  final serverIp = quantaApiBaseUrl;
 
   @override
   void initState() {

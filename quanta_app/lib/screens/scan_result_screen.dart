@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../services/firebase_auth_service.dart';
 import '../services/groq_service.dart';
+import '../services/api_config.dart';
 
 // NEW: Import Quiz Screen
 import '../quiz/quiz_play_screen.dart';
@@ -44,7 +45,7 @@ class _ScanResultScreenState extends State<ScanResultScreen> {
   bool _isSendingChat = false;
   final ScrollController _chatScrollController = ScrollController();
 
-  final String serverIp = "http://10.0.2.2:8001";
+  final String serverIp = quantaApiBaseUrl;
 
 
   @override

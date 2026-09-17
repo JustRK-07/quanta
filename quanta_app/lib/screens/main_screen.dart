@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../services/firebase_auth_service.dart';
 import '../services/groq_service.dart';
+import '../services/api_config.dart';
 import '../widgets/bottom_nav_bar.dart';
 import '../storage/history_store.dart';
 import '../models/scan_history.dart';
@@ -25,18 +26,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final ImagePicker _picker = ImagePicker();
-  // CONFIGURATION
-  // Set to true for production (APK/Web deployment), false for local dev
-  // Set to true for production (APK/Web deployment), false for local dev
-  static const bool _isProduction = false; 
-
-  // PRODUCTION URL (Update this after Vercel deployment)
-  static const String _prodUrl = "https://quanta-backend.vercel.app";
-  // DEV URL
-  // DEV URL (Use 10.0.2.2 for Android Emulator to reach localhost)
-  static const String _devUrl = "http://10.0.2.2:8001";
-
-  final String serverIp = _isProduction ? _prodUrl : _devUrl; 
+  final String serverIp = quantaApiBaseUrl;
   
   // OCR Recognizer
   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);

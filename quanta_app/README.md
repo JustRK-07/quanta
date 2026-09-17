@@ -83,12 +83,16 @@ The phone build talks to `http://10.0.2.2:8001` (Android emulator → host `loca
 
 ### 4.1 · Switching to production
 
-```dart
-// lib/screens/main_screen.dart
-static const bool _isProduction = false;  // flip to true
+Pass the deployed backend URL at build time. This applies consistently to
+scan, notes, visualiser, quiz, history, and authentication requests:
+
+```bash
+flutter build web --release \
+  --dart-define=QUANTA_API_BASE_URL=https://your-backend.example.com
 ```
 
-…then set `static const String _prodUrl = "https://quanta-backend.vercel.app";` (or your own deploy URL).
+The value is defined in `lib/services/api_config.dart`; no source-file edit is
+needed for each deployment.
 
 ---
 

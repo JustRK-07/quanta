@@ -4,6 +4,14 @@
 
 ---
 
+## Status
+
+This checkout does **not** contain the FastAPI source tree, dependency
+manifests, Dockerfile, or tests described below. The document is a deployment
+contract for the missing backend, not proof that the backend can currently be
+built. Restore the backend from its authoritative source before running any
+commands in this file.
+
 ## TL;DR
 
 ```bash
@@ -11,7 +19,7 @@ cd backend
 python3.14 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env  # add GOOGLE_API_KEY
+cp .env.example .env  # add provider keys locally; never commit .env
 ALLOW_DEV_AUTH_BYPASS=true .venv/bin/uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 ```
 
@@ -74,7 +82,8 @@ The OpenAPI doc at `/docs` is the canonical reference.
 
 ## 3 · Environment
 
-`backend/.env` is read by `config.py` at startup. The minimum viable set:
+`backend/.env` is read by `config.py` at startup once that source file is
+restored. The minimum viable set:
 
 ```ini
 # Required for AI features
@@ -189,7 +198,7 @@ Adding a new topic: see [CONTRIBUTING.md § 6](../CONTRIBUTING.md).
 
 ## 10 · Troubleshooting
 
-### 10.1 · "Address already in use" on port 8000
+### 10.1 · "Address already in use" on port 8001
 
 We use **8001** by default during the hackathon because port 8000 is occupied by another service on the dev laptop. Change the port in the run command and the Flutter app's `_devUrl`.
 

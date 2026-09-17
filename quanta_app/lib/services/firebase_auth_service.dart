@@ -10,6 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'api_config.dart';
 
 class FirebaseConfigurationException implements Exception {
   final String message;
@@ -20,17 +21,13 @@ class FirebaseConfigurationException implements Exception {
 
 const String _tokenStorageKey = "quanta_id_token";
 const String _profileStorageKey = "quanta_user_profile";
-const String _apiBaseUrl = String.fromEnvironment(
-  'QUANTA_API_BASE_URL',
-  defaultValue: 'http://10.0.2.2:8001',
-);
-
-/// Token the FastAPI backend recognises when `ALLOW_DEV_AUTH_BYPASS=true`.
-/// Used as a fallback whenever there's no signed-in Firebase user — the
-/// backend then acts as a mock `test-user-123` so demos and offline runs
-/// can hit authenticated routes (visualiser, quiz, history, etc.) without
-/// a real Firebase project.
+/// Dev-only token. It is opt-in at build time so a production build can never
+/// silently authenticate as the demo user.
 const String _kDevBypassToken = 'test-token';
+const bool _allowDevAuthBypass = bool.fromEnvironment(
+  'ALLOW_DEV_AUTH_BYPASS',
+  defaultValue: false,
+);
 
 class FirebaseAuthService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -180,7 +177,7 @@ class FirebaseAuthService extends ChangeNotifier {
 
     try {
       await http.get(
-        Uri.parse("$_apiBaseUrl/auth/me"),
+        Uri.parse("$quantaApiBaseUrl/auth/me"),
         headers: {"Authorization": "Bearer $token"},
       );
     } catch (e) {
@@ -208,7 +205,7 @@ class FirebaseAuthService extends ChangeNotifier {
 
   Future<http.Response> getWithAuth(String path) async {
     final headers = await authenticatedHeaders();
-    return http.get(Uri.parse("$_apiBaseUrl$path"), headers: headers);
+    return http.get(Uri.parse("$quantaApiBaseUrl$path"), headers: headers);
   }
 
   // ---------------------------------------------------------------------------
@@ -218,9 +215,6 @@ class FirebaseAuthService extends ChangeNotifier {
     if (_user != null) {
       final token = await _user!.getIdToken(forceRefresh);
 
-      // 🔥 Print token for Swagger testing
-      print("🔥 FIREBASE TOKEN: $token");
-
       _cachedIdToken = token;
       await _secureStorage.write(key: _tokenStorageKey, value: token);
       return token;
@@ -228,15 +222,14 @@ class FirebaseAuthService extends ChangeNotifier {
 
     _cachedIdToken ??= await _secureStorage.read(key: _tokenStorageKey);
 
-    if (_cachedIdToken != null) {
-      print("🔥 FIREBASE TOKEN (cached): $_cachedIdToken");
+    if (_cachedIdToken == _kDevBypassToken && !_allowDevAuthBypass) {
+      _cachedIdToken = null;
+      await _secureStorage.delete(key: _tokenStorageKey);
     }
 
-    // Demo / offline fallback — return the backend's dev bypass token so
-    // routes like /visualiser/generate and /quiz/generate work without a
-    // real Firebase session. The backend must be started with
-    // ALLOW_DEV_AUTH_BYPASS=true for this token to be honoured.
-    if (_cachedIdToken == null) {
+    // Demo / offline fallback is explicitly enabled for a local build only.
+    // Never send the bypass token from a normal release build.
+    if (_cachedIdToken == null && _allowDevAuthBypass) {
       return _kDevBypassToken;
     }
 

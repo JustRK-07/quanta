@@ -32,7 +32,7 @@ services:
     container_name: quanta-backend
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8001:8001"
     env_file:
       - ./backend/.env
     environment:
@@ -46,7 +46,7 @@ services:
     depends_on:
       mongodb:
         condition: service_healthy
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8001 --reload
 
 volumes:
   mongo-data:

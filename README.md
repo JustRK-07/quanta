@@ -146,8 +146,47 @@ ALLOW_DEV_AUTH_BYPASS=true .venv/bin/uvicorn main:app --port 8001
 # App
 cd quanta_app
 flutter pub get
-flutter run
+flutter run --dart-define=ALLOW_DEV_AUTH_BYPASS=true
 ```
+
+## ☁️ Hackathon deployment
+
+The repository is intended to be a Flutter client plus a FastAPI backend.
+At present, this checkout contains only the backend documentation and runtime
+uploads; the Python source and deployment manifests are not present. Do not
+attempt a full-stack deployment from this checkout until those files are
+restored from the authoritative source repository.
+
+Once the backend source is available, deploy the two components separately:
+
+1. Create a free MongoDB Atlas database and copy its driver URI into the
+   backend's `MONGO_URI` environment variable.
+2. Deploy the complete `backend/` directory to Render, Railway, or another
+   Python host. Use `uvicorn main:app --host 0.0.0.0 --port $PORT` as the
+   start command and set the provider key required by the backend, Firebase
+   credentials, and `MONGO_URI` as platform secrets.
+3. Deploy `quanta_app/` to Vercel or Firebase Hosting. Build with:
+
+   ```bash
+   flutter build web --release \
+     --dart-define=QUANTA_API_BASE_URL=https://your-backend.example.com
+   ```
+
+   `QUANTA_API_BASE_URL` is used by every Flutter screen that calls the API.
+   The default `http://10.0.2.2:8001` is only for an Android emulator.
+4. For production, configure Firebase Authentication and set
+   `ALLOW_DEV_AUTH_BYPASS=false` (or leave it unset). Never commit `.env`,
+   Firebase service-account files, or API keys.
+
+The optional provider-key screen in the Flutter client is suitable only for
+local demos: any key entered there is necessarily available to the client.
+Production AI calls must use backend-managed provider credentials instead.
+
+The backend source files must be present in `backend/` before deployment.
+The repository's deployment configuration cannot build an API from the
+documentation alone. Never copy secrets into the repository; configure
+`GOOGLE_API_KEY`, Firebase Admin credentials, `MONGO_URI`, and
+`ALLOW_DEV_AUTH_BYPASS` in the hosting provider's environment settings.
 
 The dev bypass means the app talks to the local backend without needing
 a Firebase project. For a production deploy, follow
@@ -175,8 +214,9 @@ a Firebase project. For a production deploy, follow
 
 ## 🏅 Accomplishments
 
-- **The whole product loop works** on a fresh clone with `make dev` —
-  no Firebase project, no API keys, no deploy step.
+- **The whole product loop was demonstrated** during the hackathon with the
+  original backend source and local configuration. This checkout is not a
+  fresh-clone full-stack deployment until that source is restored.
 - **Twelve hand-written visualiser widgets** that all redraw at 60 fps
   on parameter changes.
 - **Local-first history** — the History tab works on a flight.
