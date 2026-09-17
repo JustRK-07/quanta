@@ -128,3 +128,5 @@ videos/
 # scripts produce. Anything dropped in by hand still respects the *.mp4
 # rule above.
 !video/*.mp4
+backend/static/uploads/*
+!backend/static/uploads/.gitkeep
